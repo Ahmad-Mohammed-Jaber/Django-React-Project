@@ -15,8 +15,15 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from api.views import CreateUserView  
+from rest_framework_simplejwt import TokenObtainPairView, TokenRefreshView # These are rebuilt views for JWT authentication, allowing us to obtain and refresh tokens.
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/token/', TokenObtainPairView.as_view(), name='get_token'),  # Endpoint to obtain JWT token
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='refresh_token'),
+    path('api/users/', CreateUserView.as_view(), name='create_user'), 
+    path('api-auth/', include('rest_framework.urls')),  # This includes the default authentication URLs provided by Django REST Framework
+    # Still not quite sure what this is, not to worry about it for now.
 ]
