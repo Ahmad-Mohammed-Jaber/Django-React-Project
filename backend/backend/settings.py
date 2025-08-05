@@ -63,7 +63,7 @@ INSTALLED_APPS = [
     # added from user
     "api",
     "rest_framework",
-    "corrsheaders" # read more, something about issues between front and backends,
+    "corsheaders" # read more, something about issues between front and backends,
 ]
 
 MIDDLEWARE = [

@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from api.views import CreateUserView  
-from rest_framework_simplejwt import TokenObtainPairView, TokenRefreshView # These are rebuilt views for JWT authentication, allowing us to obtain and refresh tokens.
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView # These are rebuilt views for JWT authentication, allowing us to obtain and refresh tokens.
 
 urlpatterns = [
     path('admin/', admin.site.urls),
