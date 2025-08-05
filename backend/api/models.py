@@ -22,7 +22,7 @@ class WeatherSettings(models.Model):
     def __str__(self):
         return f"Settings for {self.profile.city_name}"
     
-class Tags(models.Model):
+class Tag(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100, unique=True)
     profiles = models.ManyToManyField(WeatherProfile)
