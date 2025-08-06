@@ -14,16 +14,21 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
 from django.contrib import admin
 from django.urls import path, include
-from api.views import CreateUserView  
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView # These are rebuilt views for JWT authentication, allowing us to obtain and refresh tokens.
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/token/', TokenObtainPairView.as_view(), name='get_token'),  # Endpoint to obtain JWT token
+
+    # JWT auth endpoints
+    path('api/token/', TokenObtainPairView.as_view(), name='get_token'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='refresh_token'),
-    path('api/users/', CreateUserView.as_view(), name='create_user'), 
-    path('api-auth/', include('rest_framework.urls')),  # This includes the default authentication URLs provided by Django REST Framework
-    # Still not quite sure what this is, not to worry about it for now.
+
+    # Main API app (all viewsets and user registration handled here)
+    path('api/', include('api.urls')),  # <--- This line includes all /api/urls.py routes
+
+    # DRF's built-in browsable API login/logout (optional)
+    path('api-auth/', include('rest_framework.urls')),
 ]
