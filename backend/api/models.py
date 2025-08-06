@@ -1,13 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-# Create your models here.
 class WeatherProfile(models.Model):
-    id = models.AutoField(primary_key=True)
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name='weather_profiles'  # Enables reverse access: user.weather_profiles.all()
+        related_name='weather_profiles'
     )
     city_name = models.CharField(max_length=100)
     last_temp = models.FloatField()
@@ -19,19 +17,18 @@ class WeatherProfile(models.Model):
 
 class WeatherSettings(models.Model):
     UNIT_CHOICES = (
-        ('metric', 'Metric'),     # Celsius, meters/sec, etc.
-        ('imperial', 'Imperial')  # Fahrenheit, miles/hour, etc.
+        ('metric', 'Metric'),
+        ('imperial', 'Imperial')
     )
 
-    id = models.AutoField(primary_key=True)
     profile = models.OneToOneField(
         WeatherProfile,
         on_delete=models.CASCADE,
-        related_name='settings'  # Enables: profile.settings
+        related_name='settings'
     )
     units = models.CharField(
         max_length=10,
-        choices=UNIT_CHOICES     # Only allows "metric" or "imperial"
+        choices=UNIT_CHOICES
     )
     include_forecast = models.BooleanField(default=False)
 
@@ -40,11 +37,10 @@ class WeatherSettings(models.Model):
 
 
 class Tag(models.Model):
-    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100, unique=True)
     profiles = models.ManyToManyField(
         WeatherProfile,
-        related_name='tags'  # Enables: profile.tags.all()
+        related_name='tags'
     )
 
     def __str__(self):
