@@ -1,9 +1,9 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.conf import settings
 
 class WeatherProfile(models.Model):
     user = models.ForeignKey(
-        User,
+        settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name='weather_profiles'
     )
@@ -12,7 +12,7 @@ class WeatherProfile(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.user.username}'s weather profile for {self.city_name}"
+        return f"{self.user.full_name}'s weather profile for {self.city_name}"
 
 
 class WeatherSettings(models.Model):

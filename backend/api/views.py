@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from django.contrib.auth.models import User
-from rest_framework import generics, viewsets  # Importing generic views and viewsets
+from django.contrib.auth import get_user_model
+from rest_framework import generics, viewsets
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.authentication import SessionAuthentication
 
@@ -12,6 +12,8 @@ from .serializers import (
     TagSerializer
 )
 
+User = get_user_model()
+
 # ---- USER AUTH ----
 
 class CreateUserView(generics.CreateAPIView):
@@ -19,7 +21,7 @@ class CreateUserView(generics.CreateAPIView):
     Allows registration of new users.
     Public endpoint (no authentication required).
     """
-    queryset = User.objects.none()
+    queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [AllowAny]
 
@@ -36,11 +38,9 @@ class WeatherProfileViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        # Returns only the profiles belonging to the authenticated user
         return WeatherProfile.objects.filter(user=self.request.user)
 
     def perform_create(self, serializer):
-        # Automatically set the user when creating a new profile
         serializer.save(user=self.request.user)
 
 
@@ -53,7 +53,6 @@ class WeatherSettingsViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        # Ensures users only access settings related to their own profiles
         return WeatherSettings.objects.filter(profile__user=self.request.user)
 
 
