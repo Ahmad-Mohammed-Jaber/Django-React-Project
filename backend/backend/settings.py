@@ -53,17 +53,22 @@ SIMPLE_JWT = {
 
 # Application definition
 
-INSTALLED_APPS = [
+NSTALLED_APPS = [
+    # 1. Django built-ins
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # added from user
-    "api",
-    "rest_framework",
-    "corsheaders" # read more, something about issues between front and backends,
+
+    # 2. Third-party
+    'rest_framework',
+    'corsheaders',
+
+    # 3. Your apps
+    'accounts',
+    'api',
 ]
 
 MIDDLEWARE = [
