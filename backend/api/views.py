@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from rest_framework import generics, viewsets
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.authentication import SessionAuthentication
+from dj_rest_auth.views import LoginView
 
 from .models import WeatherProfile, WeatherSettings, Tag
 from .serializers import (

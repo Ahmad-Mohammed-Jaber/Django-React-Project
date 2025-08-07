@@ -1,9 +1,9 @@
-# accounts/models.py
-
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+# from .serializers import CustomTokenObtainPairSerializer
 
 class CustomUserManager(BaseUserManager):
+    # serializer_class = CustomTokenObtainPairSerializer
     def create_user(self, email, password=None, **extra_fields):
         if not email:
             raise ValueError("Users must have an email address")
@@ -21,12 +21,14 @@ class CustomUserManager(BaseUserManager):
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True)
     full_name = models.CharField(max_length=150)
+    dob = models.DateField(null=True, blank=True)  
 
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
-    USERNAME_FIELD = 'email'       # The field to use as the unique identifier
-    REQUIRED_FIELDS = ['full_name']  # Additional fields required for user creation
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['full_name']
+
     objects = CustomUserManager()
 
     def __str__(self):
