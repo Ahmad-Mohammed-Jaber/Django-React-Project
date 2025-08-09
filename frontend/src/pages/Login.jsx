@@ -2,23 +2,23 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "../constants";
+import { Button } from "@/components/ui/button"
 
 export default function Login() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
-
   const handleChange = (e) => {
     setFormData((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
     }));
   };
-
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-
+    
     try {
       const res = await api.post("/api/token/", {
         email: formData.email,
@@ -32,7 +32,7 @@ export default function Login() {
       setError("Invalid email or password");
     }
   };
-
+  
   return (
     <div style={styles.container}>
       <form onSubmit={handleSubmit} style={styles.form}>
@@ -40,6 +40,7 @@ export default function Login() {
 
         {error && <div style={styles.error}>{error}</div>}
 
+      <Button>Cuz you stupid</Button>
         <input
           style={styles.input}
           type="email"
