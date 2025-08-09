@@ -5,6 +5,8 @@ import Register from './pages/Register';
 import NotFound from './pages/NotFound';
 import Home from './pages/Home';
 import Login from './pages/Login';
+import Tags from './pages/Tags';
+
 function App() {
 
   function Logout() {
@@ -28,7 +30,14 @@ function App() {
             </ProtectedRoute>
           }
         />
-
+        <Route
+          path='/tags'
+          element={
+            <ProtectedRoute>
+              <Tags />
+            </ProtectedRoute>
+          }
+        />
         <Route path='/login' element={<Login />}/>
         <Route path='/logout' element={<Logout />}/>
         <Route path='/register' element={<RegisterAndLogout />}/>

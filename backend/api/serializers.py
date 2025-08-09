@@ -29,8 +29,7 @@ class WeatherSettingsSerializer(serializers.ModelSerializer):
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
-        fields = ['id', 'name']
-
+        fields = ["id", "name"]  
 
 class WeatherProfileSerializer(serializers.ModelSerializer):
     settings = WeatherSettingsSerializer(read_only=True)
@@ -38,34 +37,28 @@ class WeatherProfileSerializer(serializers.ModelSerializer):
     tag_ids = serializers.PrimaryKeyRelatedField(
         many=True,
         write_only=True,
-        queryset=Tag.objects.all(),
-        source='tags'
+        queryset=Tag.objects.all(),   
+        source="tags",
+        required=False
     )
-    user = serializers.ReadOnlyField(source='user.id')
+    user = serializers.ReadOnlyField(source="user.id")
 
     class Meta:
         model = WeatherProfile
-        fields = [
-            'id',
-            'user',
-            'city_name',
-            'last_temp',
-            'created_at',
-            'settings',
-            'tags',
-            'tag_ids',
-        ]
+        fields = ["id","user","city_name","last_temp","created_at","settings","tags","tag_ids"]
+        extra_kwargs = {"last_temp": {"required": False, "allow_null": True}}
 
     def create(self, validated_data):
-        tags = validated_data.pop('tags', [])
+        tags = validated_data.pop("tags", [])
         profile = WeatherProfile.objects.create(**validated_data)
-        profile.tags.set(tags)
+        if tags:
+            profile.tags.set(tags)
         return profile
 
     def update(self, instance, validated_data):
-        tags = validated_data.pop('tags', None)
-        for attr, value in validated_data.items():
-            setattr(instance, attr, value)
+        tags = validated_data.pop("tags", None)
+        for k, v in validated_data.items():
+            setattr(instance, k, v)
         instance.save()
         if tags is not None:
             instance.tags.set(tags)

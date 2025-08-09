@@ -1,18 +1,43 @@
 from django.db import models
 from django.conf import settings
 
+
+class Tag(models.Model):
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="tags",
+        null=True,
+        blank=True
+    )
+    name = models.CharField(max_length=100)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=["user", "name"], name="unique_user_tag_name")
+        ]
+
+    def __str__(self):
+        return self.name
+
+
 class WeatherProfile(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        related_name='weather_profiles'
+        related_name="weather_profiles"
     )
     city_name = models.CharField(max_length=100)
     last_temp = models.FloatField()
     created_at = models.DateTimeField(auto_now_add=True)
+    tags = models.ManyToManyField(
+        Tag,
+        related_name="profiles",
+        blank=True
+    )
 
     def __str__(self):
-        return f"{self.user.full_name}'s weather profile for {self.city_name}"
+        return f"{self.user} - {self.city_name}"
 
 
 class WeatherSettings(models.Model):
@@ -34,14 +59,3 @@ class WeatherSettings(models.Model):
 
     def __str__(self):
         return f"Settings for {self.profile.city_name}"
-
-
-class Tag(models.Model):
-    name = models.CharField(max_length=100, unique=True)
-    profiles = models.ManyToManyField(
-        WeatherProfile,
-        related_name='tags'
-    )
-
-    def __str__(self):
-        return self.name

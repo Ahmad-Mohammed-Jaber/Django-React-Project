@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     "accounts",  # Your custom user model app
     'dj_rest_auth', 
     'rest_framework.authtoken',
+    # "request_logging",
 ]
 
 
@@ -40,6 +41,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # 'request_logging.middleware.LoggingMiddleware',
 ]
 
 ROOT_URLCONF = 'backend.urls'
@@ -112,3 +114,4 @@ SIMPLE_JWT = {
 }
 
 AUTH_USER_MODEL = 'accounts.CustomUser'
+# REQUEST_LOGGING_DATA_LOG_LEVEL = "DEBUG"

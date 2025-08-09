@@ -58,10 +58,11 @@ class WeatherSettingsViewSet(viewsets.ModelViewSet):
 
 
 class TagViewSet(viewsets.ModelViewSet):
-    """
-    ViewSet for Tags.
-    Tags are shared across users (or could be made private if needed).
-    """
     serializer_class = TagSerializer
     permission_classes = [IsAuthenticated]
-    queryset = Tag.objects.all()
+
+    def get_queryset(self):
+        return Tag.objects.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
