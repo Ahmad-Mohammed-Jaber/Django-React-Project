@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "d07981682312865a5fa9d555b450b83c2da2d707219e959a5923fa5b5c27d019"
+            "sha256": "bbe343d7b0dc775afcb43968f4afbd4c777507f23c95cf96f5f3b86b6504c164"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -24,6 +24,14 @@
             "index": "pypi",
             "markers": "python_version >= '3.9'",
             "version": "==3.9.1"
+        },
+        "dj-rest-auth": {
+            "hashes": [
+                "sha256:3f8c744cbcf05355ff4bcbef0c8a63645da38e29a0fdef3c3332d4aced52fb90"
+            ],
+            "index": "pypi",
+            "markers": "python_version >= '3.8'",
+            "version": "==7.0.1"
         },
         "django": {
             "hashes": [
@@ -53,12 +61,12 @@
         },
         "djangorestframework": {
             "hashes": [
-                "sha256:bea7e9f6b96a8584c5224bfb2e4348dfb3f8b5e34edbecb98da258e892089361",
-                "sha256:f022ff46613584de994c0c6a4aebbace5fd700555fbe9d33b865ebf173eba6c9"
+                "sha256:166809528b1aced0a17dc66c24492af18049f2c9420dbd0be29422029cfc3ff7",
+                "sha256:33a59f47fb9c85ede792cbf88bde71893bcda0667bc573f784649521f1102cec"
             ],
             "index": "pypi",
             "markers": "python_version >= '3.9'",
-            "version": "==3.16.0"
+            "version": "==3.16.1"
         },
         "djangorestframework-simplejwt": {
             "hashes": [
