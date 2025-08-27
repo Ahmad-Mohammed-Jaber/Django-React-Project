@@ -9,3 +9,7 @@ sqlparse
 psycopg2-binary
 python-dotenv
 dj-rest-auth
+redis
+django-redis
+python-dotenv
+requests

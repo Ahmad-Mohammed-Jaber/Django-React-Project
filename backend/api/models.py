@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from .weather_client import fetch_weather
 
 
 class Tag(models.Model):
@@ -27,8 +28,9 @@ class WeatherProfile(models.Model):
         on_delete=models.CASCADE,
         related_name="weather_profiles"
     )
+    blog = models.ForeignKey("blogs.Blog", on_delete=models.SET_NULL, related_name="weather_profiles", null=True, blank=True)
     city_name = models.CharField(max_length=100)
-    last_temp = models.FloatField()
+    last_temp = models.FloatField(blank= True, null= True)
     created_at = models.DateTimeField(auto_now_add=True)
     tags = models.ManyToManyField(
         Tag,

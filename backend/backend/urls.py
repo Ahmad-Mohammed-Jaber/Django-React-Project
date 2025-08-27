@@ -28,6 +28,7 @@ urlpatterns = [
 
     # Main API app (all viewsets and user registration handled here)
     path('api/', include('api.urls')),  # <--- This line includes all /api/urls.py routes
+    path('api/v2/', include('blogs.urls')),
 
     # DRF's built-in browsable API login/logout (optional)
     path('api-auth/', include('rest_framework.urls')),

@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     
     "api",       # Your API app
     "accounts",  # Your custom user model app
+    'blogs',
     'dj_rest_auth', 
     'rest_framework.authtoken',
     # "request_logging",
@@ -100,12 +101,22 @@ CORS_ALLOW_CREDENTIALS = True
 # ✅ JWT config
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
+        # "rest_framework.authentication.BasicAuthentication", 
+        # "rest_framework.authentication.SessionAuthentication",
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
     "DEFAULT_PERMISSION_CLASSES": [
-        "rest_framework.permissions.IsAuthenticated",
+        "rest_framework.permissions.IsAuthenticatedOrReadOnly",
     ],
 }
+
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",  # great for dev, single process
+        "LOCATION": "unique-weather",
+    }
+}
+
 
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
@@ -115,3 +126,13 @@ SIMPLE_JWT = {
 
 AUTH_USER_MODEL = 'accounts.CustomUser'
 # REQUEST_LOGGING_DATA_LOG_LEVEL = "DEBUG"
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}

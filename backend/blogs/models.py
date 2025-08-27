@@ -5,7 +5,6 @@ from django.db.models import Q
 
 class Blog(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="blogs")
-    weather_profile = models.ForeignKey("api.WeatherProfile", on_delete=models.SET_NULL, related_name="blogs", null=True, blank=True)
     title = models.CharField(max_length=200)
     body = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
@@ -27,7 +26,7 @@ class Comment(models.Model):
     updated_on = models.DateTimeField(auto_now=True)
     
     class Meta:
-        ordering = ["created_on"]
+        ordering = ["-created_on"]
         indexes = [
             models.Index(fields=["blog", "created_on"]),
             models.Index(fields=["parent", "created_on"]),

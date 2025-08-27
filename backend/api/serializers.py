@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 from .models import WeatherProfile, WeatherSettings, Tag
-
+from .weather_client import fetch_weather
 User = get_user_model()
 
 class UserSerializer(serializers.ModelSerializer):
@@ -50,7 +50,15 @@ class WeatherProfileSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         tags = validated_data.pop("tags", [])
-        profile = WeatherProfile.objects.create(**validated_data)
+        city = validated_data['city_name']
+        
+        try:
+            temporary_temprature = fetch_weather(city)
+        except Exception as e:
+            raise serializers.ValidationError({"city_name": f"Weather fetch failed: {e}"})
+        
+        profile = WeatherProfile.objects.create(last_temp=temporary_temprature,**validated_data)
+        
         if tags:
             profile.tags.set(tags)
         return profile
