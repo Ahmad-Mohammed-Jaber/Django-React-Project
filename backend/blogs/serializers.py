@@ -35,10 +35,12 @@ class BlogSerializer(serializers.ModelSerializer):
         return instance
 
 class CommentSerializer(serializers.ModelSerializer): 
+    author = serializers.HiddenField(default=serializers.CurrentUserDefault())
+
     class Meta: 
         model = Comment
         fields = ['id', 'author', 'blog', 'parent', 'body', 'created_on', 'updated_on']
-        read_only_fields = ['id', 'author', 'created_on', 'updated_on']
+        # read_only_fields = ['id', 'created_on', 'updated_on']
 
 
 
