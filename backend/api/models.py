@@ -28,7 +28,6 @@ class WeatherProfile(models.Model):
         on_delete=models.CASCADE,
         related_name="weather_profiles"
     )
-    blog = models.ForeignKey("blogs.Blog", on_delete=models.SET_NULL, related_name="weather_profiles", null=True, blank=True)
     city_name = models.CharField(max_length=100)
     last_temp = models.FloatField(blank= True, null= True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -60,4 +59,5 @@ class WeatherSettings(models.Model):
     include_forecast = models.BooleanField(default=False)
 
     def __str__(self):
+        return f"Settings for {self.profile.city_name}"
         return f"Settings for {self.profile.city_name}"

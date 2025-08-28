@@ -2,6 +2,8 @@ from django.contrib.auth import get_user_model
 from rest_framework import serializers
 from .models import WeatherProfile, WeatherSettings, Tag
 from .weather_client import fetch_weather
+from blogs.base_serializers import BlogMinimalSerializer
+
 User = get_user_model()
 
 class UserSerializer(serializers.ModelSerializer):
@@ -32,12 +34,13 @@ class TagSerializer(serializers.ModelSerializer):
         fields = ["id", "name"]  
 
 class WeatherProfileSerializer(serializers.ModelSerializer):
-    settings = WeatherSettingsSerializer(read_only=True)
-    tags = TagSerializer(many=True, read_only=True)
+    settings = serializers.SerializerMethodField()
+    tags = serializers.SerializerMethodField()
+    blogs = BlogMinimalSerializer(many=True, read_only=True)
     tag_ids = serializers.PrimaryKeyRelatedField(
         many=True,
         write_only=True,
-        queryset=Tag.objects.all(),   
+        queryset=Tag.objects.all(),
         source="tags",
         required=False
     )
@@ -45,8 +48,14 @@ class WeatherProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = WeatherProfile
-        fields = ["id","user","city_name","last_temp","created_at","settings","tags","tag_ids"]
+        fields = ["id", "user", "city_name", "last_temp", "created_at", "settings", "tags", "tag_ids", "blogs"]
         extra_kwargs = {"last_temp": {"required": False, "allow_null": True}}
+
+    def get_settings(self, obj):
+        return WeatherSettingsSerializer(obj.settings).data if hasattr(obj, 'settings') else None
+
+    def get_tags(self, obj):
+        return TagSerializer(obj.tags.all(), many=True).data
 
     def create(self, validated_data):
         tags = validated_data.pop("tags", [])

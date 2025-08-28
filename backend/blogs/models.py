@@ -9,6 +9,7 @@ class Blog(models.Model):
     body = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
+    weather_profiles = models.ManyToManyField('api.WeatherProfile', related_name='blogs', blank=True, null=True)
 
     
     class Meta: 
