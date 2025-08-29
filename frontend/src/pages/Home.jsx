@@ -186,6 +186,9 @@ export default function Home() {
         </div>
 
         <div className="flex gap-2">
+          <Button variant="secondary" onClick={() => navigate("/blogs")}>
+            My Blogs
+          </Button>
           <Button variant="secondary" onClick={() => navigate("/tags")}>
             Manage Tags
           </Button>

@@ -6,6 +6,8 @@ import NotFound from './pages/NotFound';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Tags from './pages/Tags';
+import Blogs from './pages/Blogs';
+import BlogComments from './pages/BlogComments';
 
 function App() {
 
@@ -35,6 +37,22 @@ function App() {
           element={
             <ProtectedRoute>
               <Tags />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/blogs'
+          element={
+            <ProtectedRoute>
+              <Blogs />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/blogs/:blogId/comments'
+          element={
+            <ProtectedRoute>
+              <BlogComments />
             </ProtectedRoute>
           }
         />
