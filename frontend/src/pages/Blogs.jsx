@@ -164,27 +164,6 @@ export default function Blogs() {
       .join(", ");
   };
 
-  const saveEdit = async (blog) => {
-    if (!editTitle.trim() || !editBody.trim()) return;
-    
-    setError("");
-    try {
-      const payload = {
-        title: editTitle.trim(),
-        body: editBody.trim(),
-        weather_profiles: editProfileIds,
-      };
-
-      const res = await api.patch(`/api/v2/blogs/${blog.id}/`, payload);
-      setBlogs((prev) => prev.map((b) => (b.id === blog.id ? res.data : b)));
-      cancelEdit();
-    } catch (e) {
-      console.error("Update failed:", e);
-      const msg = e?.response?.data ? JSON.stringify(e.response.data) : "Failed to update blog.";
-      setError(msg);
-    }
-  };
-
   return (
     <div className="min-h-screen w-full max-w-6xl mx-auto p-6">
       <header className="mb-6 flex justify-between items-center">
